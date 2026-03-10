@@ -590,8 +590,8 @@ async function getRolesAndSystemSnapshot(): Promise<{ system: Record<string, any
 type SystemWithStore = {
   _MC能量: number;
   _MC能量上限: number;
-  当前MC点: number;
-  _累计消耗MC点: number;
+  当前PT点: number;
+  _累计消耗PT点: number;
   持有零花钱: number;
   主角可疑度: number;
   _hypnoos?: PersistedStore;
@@ -602,8 +602,8 @@ const SYSTEM_SCHEMA: z.ZodType<SystemWithStore> = z
   .object({
     _MC能量: z.coerce.number().default(DEFAULT_USER_DATA.mcEnergy),
     _MC能量上限: z.coerce.number().default(DEFAULT_USER_DATA.mcEnergyMax),
-    当前MC点: z.coerce.number().default(DEFAULT_USER_DATA.mcPoints),
-    _累计消耗MC点: z.coerce.number().default(DEFAULT_USER_DATA.totalConsumedMc),
+    当前PT点: z.coerce.number().default(DEFAULT_USER_DATA.mcPoints),
+    _累计消耗PT点: z.coerce.number().default(DEFAULT_USER_DATA.totalConsumedMc),
     持有零花钱: z.coerce.number().default(DEFAULT_USER_DATA.money),
     主角可疑度: z.coerce.number().default(DEFAULT_USER_DATA.suspicion),
     _hypnoos: STORE_SCHEMA.optional(),
@@ -615,8 +615,8 @@ function systemToUserResources(system: SystemWithStore): UserResources {
   return {
     mcEnergy: system._MC能量,
     mcEnergyMax: system._MC能量上限,
-    mcPoints: system.当前MC点,
-    totalConsumedMc: system._累计消耗MC点,
+    mcPoints: system.当前PT点,
+    totalConsumedMc: system._累计消耗PT点,
     money: system.持有零花钱,
     suspicion: system.主角可疑度,
   };
@@ -883,8 +883,8 @@ export const DataService = {
         const { system, store } = normalizeChatVariables(vars);
         system._MC能量 = user.mcEnergy;
         system._MC能量上限 = user.mcEnergyMax;
-        system.当前MC点 = user.mcPoints;
-        system._累计消耗MC点 = user.totalConsumedMc;
+        system.当前PT点 = user.mcPoints;
+        system._累计消耗PT点 = user.totalConsumedMc;
         system.持有零花钱 = user.money;
         system.主角可疑度 = user.suspicion;
         system._hypnoos = store;
@@ -1100,8 +1100,8 @@ export const DataService = {
       const { system, store } = normalizeChatVariables(vars);
       system._MC能量 = merged.mcEnergy;
       system._MC能量上限 = merged.mcEnergyMax;
-      system.当前MC点 = merged.mcPoints;
-      system._累计消耗MC点 = merged.totalConsumedMc;
+      system.当前PT点 = merged.mcPoints;
+      system._累计消耗PT点 = merged.totalConsumedMc;
       system.持有零花钱 = merged.money;
       system.主角可疑度 = merged.suspicion;
       system._hypnoos = store;

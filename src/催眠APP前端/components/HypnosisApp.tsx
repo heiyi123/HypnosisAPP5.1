@@ -1375,7 +1375,7 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
                 className="w-full flex justify-between items-center bg-white/5 hover:bg-white/10 p-2 rounded-lg border border-white/5 transition-colors active:scale-[0.98]"
               >
                 <span className="text-xs text-gray-300 flex items-center gap-2">
-                  <RefreshCcw size={12} /> 充值 {quickSupplyQty} MC点数
+                  <RefreshCcw size={12} /> 充值 {quickSupplyQty} PT点
                 </span>
                 <span className="text-xs font-bold text-yellow-400">¥{(quickSupplyQty * 1000).toLocaleString()}</span>
               </button>
