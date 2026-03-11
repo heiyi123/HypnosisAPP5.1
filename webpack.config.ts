@@ -530,6 +530,11 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
         return callback();
       }
 
+      // Always bundle zod / lodash 而不是作为全局变量或 CDN 外部依赖
+      if (request === 'zod' || request === 'lodash') {
+        return callback();
+      }
+
       if (
         ['vue', 'vue-router', 'pixi.js'].every(key => request !== key) &&
         ['pixi', 'react', 'vue'].some(key => request.includes(key))
@@ -538,13 +543,11 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
       }
       const global = {
         jquery: '$',
-        lodash: '_',
         showdown: 'showdown',
         toastr: 'toastr',
         vue: 'Vue',
         'vue-router': 'VueRouter',
         yaml: 'YAML',
-        zod: 'z',
         'pixi.js': 'PIXI',
       };
       if (request in global) {

@@ -784,6 +784,7 @@ const CalendarDarkApp: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       ? weekdayLabelFromIndex(currentDate.weekdayIndex)
       : null);
   const schedule = typeof system?.当前日程 === 'string' ? system.当前日程 : null;
+  const location = typeof system?.当前地点 === 'string' ? system.当前地点 : null;
 
   const selectedEvents = useMemo(() => {
     if (!selectedDay) return [];
@@ -822,7 +823,10 @@ const CalendarDarkApp: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           <div className="w-9" />
         </div>
 
-        {displayedYearOffset === 0 && todayMonth === displayedMonth && todayDay && (todayWeek || schedule) && (
+        {displayedYearOffset === 0 &&
+          todayMonth === displayedMonth &&
+          todayDay &&
+          (todayWeek || schedule || location) && (
           <div className="mt-3 flex flex-wrap gap-2">
             {todayWeek && (
               <span className="text-[10px] px-2 py-1 rounded-full bg-white/5 border border-white/10 text-white/60">
@@ -832,6 +836,11 @@ const CalendarDarkApp: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             {schedule && (
               <span className="text-[10px] px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-200">
                 {schedule}
+              </span>
+            )}
+            {location && (
+              <span className="text-[10px] px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-200">
+                {location}
               </span>
             )}
           </div>

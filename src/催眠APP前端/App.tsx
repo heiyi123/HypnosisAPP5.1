@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StatusBar } from './components/OS/StatusBar';
 import { HypnosisApp, HypnoLogoSVG } from './components/HypnosisApp';
-import { AchievementApp } from './components/AchievementApp'; // Import new component
+import { AchievementApp } from './components/AchievementApp';
 import { BodyStatsApp, CalendarApp, HelpApp, WipApp } from './components/CommonApps';
+import { CharacterRegistryApp } from './components/CharacterRegistryApp';
 import { DataService } from './services/dataService';
 import { waitForMvuReady } from './services/mvuBridge';
 import { UserResources, AppMode } from './types';
-import { Activity, Calendar, HelpCircle, Trophy, Globe } from 'lucide-react';
+import { Activity, Calendar, HelpCircle, Trophy, Globe, UserPlus2 } from 'lucide-react';
 
 const FALLBACK_USER_DATA: UserResources = {
   mcEnergy: 25,
@@ -195,6 +196,8 @@ const App = () => {
         return (
           <AchievementApp userData={userData} onUpdateUser={updateUser} onBack={() => setCurrentApp(AppMode.HOME)} />
         );
+      case AppMode.CHARACTER_REGISTRY:
+        return <CharacterRegistryApp onBack={() => setCurrentApp(AppMode.HOME)} />;
       case AppMode.WIP:
         return <WipApp name="Unknown App" onBack={() => setCurrentApp(AppMode.HOME)} />;
       case AppMode.HOME:
@@ -322,6 +325,14 @@ const HomeScreen = ({
       icon: Trophy,
       color: 'bg-gradient-to-br from-indigo-500 to-purple-600',
       mode: AppMode.ACHIEVEMENTS,
+      disabled: false,
+    },
+    {
+      id: 'character-registry',
+      name: '角色录入',
+      icon: UserPlus2,
+      color: 'bg-emerald-600',
+      mode: AppMode.CHARACTER_REGISTRY,
       disabled: false,
     },
     {

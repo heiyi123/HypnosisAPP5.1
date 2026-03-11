@@ -2,15 +2,15 @@ import { z } from 'zod';
 import { QUEST_DB, type QuestDefinition } from '../data/questDb';
 import { Achievement, HypnosisFeature, Quest, QuestStatus, UserResources } from '../types';
 import {
-  canSubscribeTier,
-  canUseFeature as canUseFeatureBySubscription,
-  getBodyStatsUnlocked,
-  getSubscriptionUnlockThreshold,
-  isSubscriptionActive,
-  SUBSCRIPTION_TIERS,
-  type AccessContext,
-  type SubscriptionState,
-  type SubscriptionTier,
+    canSubscribeTier,
+    canUseFeature as canUseFeatureBySubscription,
+    getBodyStatsUnlocked,
+    getSubscriptionUnlockThreshold,
+    isSubscriptionActive,
+    SUBSCRIPTION_TIERS,
+    type AccessContext,
+    type SubscriptionState,
+    type SubscriptionTier,
 } from './access';
 import { MvuBridge } from './mvuBridge';
 
@@ -511,25 +511,6 @@ function normalizeSystemAliases(systemRaw: Record<string, any>) {
     const mcEnergyMax = toFiniteNumber(systemRaw.MC能量上限);
     if (mcEnergyMax !== null) systemRaw._MC能量上限 = mcEnergyMax;
   }
-
-  // PT 点数：兼容旧字段名（MC点）并避免“写回”旧字段造成混淆
-  const existingPt = toFiniteNumber(systemRaw.当前PT点);
-  if (existingPt === null) {
-    const legacy = toFiniteNumber(systemRaw.当前MC点);
-    if (legacy !== null) systemRaw.当前PT点 = legacy;
-  }
-  if (typeof systemRaw.当前MC点 !== 'undefined') {
-    delete systemRaw.当前MC点;
-  }
-
-  const existingTotalPt = toFiniteNumber(systemRaw._累计消耗PT点);
-  if (existingTotalPt === null) {
-    const legacy = toFiniteNumber(systemRaw._累计消耗MC点);
-    if (legacy !== null) systemRaw._累计消耗PT点 = legacy;
-  }
-  if (typeof systemRaw._累计消耗MC点 !== 'undefined') {
-    delete systemRaw._累计消耗MC点;
-  }
   return systemRaw;
 }
 
@@ -613,6 +594,7 @@ type SystemWithStore = {
   _累计消耗PT点: number;
   持有零花钱: number;
   主角可疑度: number;
+  当前地点?: string;
   _hypnoos?: PersistedStore;
   [key: string]: any;
 };
@@ -625,6 +607,7 @@ const SYSTEM_SCHEMA: z.ZodType<SystemWithStore> = z
     _累计消耗PT点: z.coerce.number().default(DEFAULT_USER_DATA.totalConsumedMc),
     持有零花钱: z.coerce.number().default(DEFAULT_USER_DATA.money),
     主角可疑度: z.coerce.number().default(DEFAULT_USER_DATA.suspicion),
+    当前地点: z.string().optional(),
     _hypnoos: STORE_SCHEMA.optional(),
   })
   .passthrough()

@@ -6,6 +6,7 @@ export enum AppMode {
   CALENDAR = 'CALENDAR',
   HELP = 'HELP',
   ACHIEVEMENTS = 'ACHIEVEMENTS', // Replaces Ghost/WIP
+  CHARACTER_REGISTRY = 'CHARACTER_REGISTRY',
   WIP = 'WIP',
 }
 

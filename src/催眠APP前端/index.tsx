@@ -24,7 +24,26 @@ function unmount() {
   root = undefined;
 }
 
-$(() => {
+function onReady(fn: () => void) {
+  const jq = (globalThis as any).$ as typeof $ | undefined;
+  if (typeof jq === 'function') {
+    jq(fn);
+  } else {
+    // 非酒馆环境调试时的兜底逻辑
+    window.addEventListener('load', fn);
+  }
+}
+
+function onPageHide(handler: () => void) {
+  const jq = (globalThis as any).$ as typeof $ | undefined;
+  if (typeof jq === 'function') {
+    jq(window).on('pagehide', handler);
+  } else {
+    window.addEventListener('pagehide', handler);
+  }
+}
+
+onReady(() => {
   void (async () => {
     try {
       await waitForMvuReady({ timeoutMs: 5000, pollMs: 150 });
@@ -33,6 +52,6 @@ $(() => {
     }
     void MvuBridge.resetThisTurnAppOperationLog();
     mount();
-    $(window).on('pagehide', unmount);
+    onPageHide(unmount);
   })();
 });

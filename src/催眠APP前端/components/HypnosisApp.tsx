@@ -1,22 +1,22 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { UserResources, HypnosisFeature, VIP_LEVELS } from '../types';
-import { DataService, SUBSCRIPTION_PRICES } from '../services/dataService';
-import { MvuBridge } from '../services/mvuBridge';
-import { buildHypnosisSendMessage } from '../prompts/hypnosisSend';
 import {
+  AlertTriangle,
+  ArrowLeft,
   Battery,
-  Zap,
-  Lock,
   ChevronDown,
   ChevronUp,
-  ShoppingCart,
-  AlertTriangle,
   Clock,
-  StopCircle,
+  Lock,
   RefreshCcw,
-  ArrowLeft,
+  ShoppingCart,
+  StopCircle,
+  Zap,
 } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { buildHypnosisSendMessage } from '../prompts/hypnosisSend';
+import { DataService, SUBSCRIPTION_PRICES } from '../services/dataService';
+import { MvuBridge } from '../services/mvuBridge';
+import { HypnosisFeature, UserResources, VIP_LEVELS } from '../types';
 
 interface HypnosisAppProps {
   userData: UserResources;
@@ -528,13 +528,13 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
     feature: HypnosisFeature,
   ):
     | {
-        label: string;
-        unit: string;
-        min: number;
-        max: number;
-        step?: number;
-        hint?: string;
-      }
+      label: string;
+      unit: string;
+      min: number;
+      max: number;
+      step?: number;
+      hint?: string;
+    }
     | null => {
     switch (feature.id) {
       case 'vip1_temp_sensitivity':
@@ -1025,11 +1025,10 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
                 className={`
                  bg-white/5 border rounded-xl overflow-hidden transition-all duration-300
                  ${lockedBySubscription || lockedByPurchase ? 'opacity-80' : ''}
-                 ${
-                   feature.isEnabled && !lockedBySubscription && !lockedByPurchase
-                     ? 'border-pink-500/50 bg-pink-500/10 shadow-[0_0_15px_rgba(236,72,153,0.1)]'
-                     : 'border-white/10'
-                 }
+                 ${feature.isEnabled && !lockedBySubscription && !lockedByPurchase
+                    ? 'border-pink-500/50 bg-pink-500/10 shadow-[0_0_15px_rgba(236,72,153,0.1)]'
+                    : 'border-white/10'
+                  }
                `}
               >
                 <div
@@ -1330,7 +1329,7 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
                   disabled={
                     Math.max(0, userData.mcEnergyMax - Math.floor(userData.mcEnergy)) <= 0 ||
                     userData.money <
-                      Math.min(Math.max(0, userData.mcEnergyMax - Math.floor(userData.mcEnergy)), quickSupplyQty) * 100
+                    Math.min(Math.max(0, userData.mcEnergyMax - Math.floor(userData.mcEnergy)), quickSupplyQty) * 100
                   }
                   className="flex flex-col items-start bg-blue-900/20 border border-blue-500/20 hover:bg-blue-900/30 p-2 rounded-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -1340,9 +1339,9 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
                       {Math.max(0, userData.mcEnergyMax - Math.floor(userData.mcEnergy)) <= 0
                         ? '已满'
                         : `¥${(
-                            Math.min(Math.max(0, userData.mcEnergyMax - Math.floor(userData.mcEnergy)), quickSupplyQty) *
-                            100
-                          ).toLocaleString()}`}
+                          Math.min(Math.max(0, userData.mcEnergyMax - Math.floor(userData.mcEnergy)), quickSupplyQty) *
+                          100
+                        ).toLocaleString()}`}
                     </span>
                   </div>
                   <div className="text-xs font-bold text-gray-200">
@@ -1375,7 +1374,7 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
                 className="w-full flex justify-between items-center bg-white/5 hover:bg-white/10 p-2 rounded-lg border border-white/5 transition-colors active:scale-[0.98]"
               >
                 <span className="text-xs text-gray-300 flex items-center gap-2">
-                  <RefreshCcw size={12} /> 充值 {quickSupplyQty} PT点
+                  <RefreshCcw size={12} /> 充值 {quickSupplyQty} MC点数
                 </span>
                 <span className="text-xs font-bold text-yellow-400">¥{(quickSupplyQty * 1000).toLocaleString()}</span>
               </button>
@@ -1496,11 +1495,10 @@ export const HypnosisApp: React.FC<HypnosisAppProps> = ({ userData, onUpdateUser
             disabled={!hasSessionFeaturesEnabled}
             className={`
                  flex-1 py-3 rounded-xl font-bold text-white shadow-lg flex items-center justify-center gap-2 transition-all
-                 ${
-                   hasSessionFeaturesEnabled
-                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-pink-500/25 active:scale-95'
-                     : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                 }
+                 ${hasSessionFeaturesEnabled
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-pink-500/25 active:scale-95'
+                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+              }
                `}
           >
             <Zap size={18} fill="currentColor" />
