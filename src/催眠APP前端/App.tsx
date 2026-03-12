@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StatusBar } from './components/OS/StatusBar';
-import { HypnosisApp, HypnoLogoSVG } from './components/HypnosisApp';
+import { Activity, AlertTriangle, Calendar, Globe, HelpCircle, Trophy, UserPlus2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { AchievementApp } from './components/AchievementApp';
-import { BodyStatsApp, CalendarApp, HelpApp, WipApp } from './components/CommonApps';
 import { CharacterRegistryApp } from './components/CharacterRegistryApp';
+import { BodyStatsApp, CalendarApp, HelpApp, WipApp } from './components/CommonApps';
+import { CustomQuestApp } from './components/CustomQuestApp';
+import { HypnoLogoSVG, HypnosisApp } from './components/HypnosisApp';
+import { StatusBar } from './components/OS/StatusBar';
 import { DataService } from './services/dataService';
 import { waitForMvuReady } from './services/mvuBridge';
-import { UserResources, AppMode } from './types';
-import { Activity, Calendar, HelpCircle, Trophy, Globe, UserPlus2 } from 'lucide-react';
+import { AppMode, UserResources } from './types';
 
 const FALLBACK_USER_DATA: UserResources = {
   mcEnergy: 25,
@@ -196,6 +197,10 @@ const App = () => {
         return (
           <AchievementApp userData={userData} onUpdateUser={updateUser} onBack={() => setCurrentApp(AppMode.HOME)} />
         );
+      case AppMode.CUSTOM_QUEST:
+        return (
+          <CustomQuestApp userData={userData} onUpdateUser={updateUser} onBack={() => setCurrentApp(AppMode.HOME)} />
+        );
       case AppMode.CHARACTER_REGISTRY:
         return <CharacterRegistryApp onBack={() => setCurrentApp(AppMode.HOME)} />;
       case AppMode.WIP:
@@ -217,7 +222,7 @@ const App = () => {
   return (
     <div className="w-full flex items-center justify-center p-2">
       {/* Phone Bezel */}
-      <div className="relative w-full max-w-[420px] aspect-[9/19.5] bg-black rounded-[3rem] border-[8px] border-gray-800 overflow-hidden shadow-2xl ring-2 ring-black/20">
+      <div className="relative w-full max-w-[420px] aspect-9/19.5 bg-black rounded-[3rem] border-8 border-gray-800 overflow-hidden shadow-2xl ring-2 ring-black/20">
         {/* Dynamic Notch/Status Bar Area - Only visible on Home */}
         {currentApp === AppMode.HOME && (
           <div className="absolute top-0 w-full z-50 pointer-events-none">
@@ -344,24 +349,32 @@ const HomeScreen = ({
       disabled: false,
       action: appendMcAnonTagToThisFloor,
     },
+    {
+      id: 'custom-quest',
+      name: '任务发布',
+      icon: AlertTriangle,
+      color: 'bg-amber-500',
+      mode: AppMode.CUSTOM_QUEST,
+      disabled: false,
+    },
   ];
   const visibleApps: DesktopApp[] = bodyStatsUnlocked
     ? [
-        apps[0],
-        {
-          id: 'stats',
-          name: '身体检测',
-          icon: Activity,
-          color: 'bg-blue-500',
-          mode: AppMode.BODY_STATS,
-          disabled: false,
-        },
-        ...apps.slice(1),
-      ]
+      apps[0],
+      {
+        id: 'stats',
+        name: '身体检测',
+        icon: Activity,
+        color: 'bg-blue-500',
+        mode: AppMode.BODY_STATS,
+        disabled: false,
+      },
+      ...apps.slice(1),
+    ]
     : apps;
 
   return (
-    <div className="relative h-full w-full bg-gradient-to-b from-slate-900 via-purple-950 to-black flex flex-col pt-12 pb-24 animate-fade-in">
+    <div className="relative h-full w-full bg-linear-to-b from-slate-900 via-purple-950 to-black flex flex-col pt-12 pb-24 animate-fade-in">
       {/* Date Widget */}
       <div className="px-6 mb-8 text-white/90 drop-shadow-md">
         <div className="text-6xl font-thin tracking-tighter">{displayTime}</div>
@@ -385,7 +398,7 @@ const HomeScreen = ({
           >
             <div
               className={`
-              w-14 h-14 rounded-2xl ${app.color} flex items-center justify-center shadow-lg 
+              w-14 h-14 rounded-2xl ${app.color} flex items-center justify-center shadow-lg
               ${!app.disabled && 'group-active:scale-90 transition-transform duration-200'}
               relative
             `}

@@ -1,0 +1,2 @@
+系统:
+  {{format_message_variable::stat_data.系统}}

@@ -8,6 +8,7 @@ export enum AppMode {
   ACHIEVEMENTS = 'ACHIEVEMENTS', // Replaces Ghost/WIP
   CHARACTER_REGISTRY = 'CHARACTER_REGISTRY',
   WIP = 'WIP',
+  CUSTOM_QUEST = 'CUSTOM_QUEST',
 }
 
 // User Resources Data Structure

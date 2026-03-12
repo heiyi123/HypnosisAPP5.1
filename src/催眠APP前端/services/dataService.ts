@@ -452,6 +452,8 @@ type PersistedStore = {
   purchases: Record<string, boolean>;
   achievements: Record<string, boolean>;
   quests: Record<string, QuestStatus>;
+  customQuests?: QuestDefinition[];
+  lastCustomQuestIndex?: number;
 };
 
 const STORE_SCHEMA: z.ZodType<PersistedStore> = z
@@ -483,6 +485,17 @@ const STORE_SCHEMA: z.ZodType<PersistedStore> = z
     purchases: z.record(z.string(), z.coerce.boolean()).default({}),
     achievements: z.record(z.string(), z.boolean()).default({}),
     quests: z.record(z.string(), z.enum(['AVAILABLE', 'ACTIVE', 'COMPLETED', 'CLAIMED'])).default({}),
+    customQuests: z
+      .array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          condition: z.string(),
+          rewardMcPoints: z.coerce.number(),
+        }),
+      )
+      .default([]),
+    lastCustomQuestIndex: z.coerce.number().default(0),
   })
   .default({
     version: 1,
@@ -492,6 +505,8 @@ const STORE_SCHEMA: z.ZodType<PersistedStore> = z
     purchases: {},
     achievements: {},
     quests: {},
+    customQuests: [],
+    lastCustomQuestIndex: 0,
   });
 
 function toFiniteNumber(value: unknown): number | null {
@@ -520,6 +535,14 @@ function idSafe(part: string): string {
 
 function makeAchievementId(prefix: string, ...parts: string[]) {
   return [prefix, ...parts.map(idSafe)].join('__');
+}
+
+function findQuestDefinitionById(id: string, store: PersistedStore): QuestDefinition | null {
+  const staticDef = QUEST_DATABASE.find(q => q.id === id);
+  if (staticDef) return staticDef;
+  const customList = store.customQuests ?? [];
+  const customDef = customList.find(q => q.id === id);
+  return customDef ?? null;
 }
 
 export const SUBSCRIPTION_PRICES: Record<SubscriptionTier, number> = {
@@ -615,12 +638,12 @@ const SYSTEM_SCHEMA: z.ZodType<SystemWithStore> = z
 
 function systemToUserResources(system: SystemWithStore): UserResources {
   return {
-    mcEnergy: system._MC能量,
-    mcEnergyMax: system._MC能量上限,
-    mcPoints: system.当前PT点,
-    totalConsumedMc: system._累计消耗PT点,
-    money: system.持有零花钱,
-    suspicion: system.主角可疑度,
+    mcEnergy: Math.max(0, system._MC能量),
+    mcEnergyMax: Math.max(0, system._MC能量上限),
+    mcPoints: Math.max(0, system.当前PT点),
+    totalConsumedMc: Math.max(0, system._累计消耗PT点),
+    money: Math.max(0, system.持有零花钱),
+    suspicion: Math.max(0, system.主角可疑度),
   };
 }
 
@@ -1097,7 +1120,16 @@ export const DataService = {
   },
 
   updateResources: async (newData: Partial<UserResources>): Promise<UserResources> => {
-    const merged: UserResources = { ...(await DataService.getUserData()), ...newData };
+    const base = await DataService.getUserData();
+    const draft: UserResources = { ...base, ...newData };
+    const merged: UserResources = {
+      mcEnergy: Math.max(0, draft.mcEnergy),
+      mcEnergyMax: Math.max(0, draft.mcEnergyMax),
+      mcPoints: Math.max(0, draft.mcPoints),
+      totalConsumedMc: Math.max(0, draft.totalConsumedMc),
+      money: Math.max(0, draft.money),
+      suspicion: Math.max(0, draft.suspicion),
+    };
     updateVariablesWith(vars => {
       const { system, store } = normalizeChatVariables(vars);
       system._MC能量 = merged.mcEnergy;
@@ -1151,7 +1183,12 @@ export const DataService = {
     const claimed = store.quests ?? {};
     const tasks = (await MvuBridge.getTasks().catch(() => null)) ?? {};
 
-    const quests = QUEST_DATABASE.map(q => {
+    const allDefs: QuestDefinition[] = [
+      ...QUEST_DATABASE,
+      ...(store.customQuests ?? []),
+    ];
+
+    const quests = allDefs.map(q => {
       const locked = claimed[q.id] === 'CLAIMED';
       if (locked) {
         return {
@@ -1202,11 +1239,11 @@ export const DataService = {
   },
 
   acceptQuest: async (id: string): Promise<{ success: boolean; message?: string }> => {
-    const def = QUEST_DATABASE.find(q => q.id === id);
+    const { store } = normalizeChatVariables(getVariables(CHAT_OPTION));
+    const def = findQuestDefinitionById(id, store);
     if (!def) return { success: false, message: '未知任务' };
     if (def.name.includes('.')) return { success: false, message: '任务名不能包含“.”' };
 
-    const { store } = normalizeChatVariables(getVariables(CHAT_OPTION));
     if (store.quests?.[def.id] === 'CLAIMED') return { success: false, message: '该任务已完成并锁定' };
 
     const tasks = await MvuBridge.getTasks();
@@ -1232,11 +1269,11 @@ export const DataService = {
   },
 
   cancelQuest: async (id: string): Promise<{ success: boolean; message?: string }> => {
-    const def = QUEST_DATABASE.find(q => q.id === id);
+    const { store } = normalizeChatVariables(getVariables(CHAT_OPTION));
+    const def = findQuestDefinitionById(id, store);
     if (!def) return { success: false, message: '未知任务' };
     if (def.name.includes('.')) return { success: false, message: '任务名不能包含“.”' };
 
-    const { store } = normalizeChatVariables(getVariables(CHAT_OPTION));
     if (store.quests?.[def.id] === 'CLAIMED') return { success: false, message: '该任务已完成并锁定' };
 
     const tasks = await MvuBridge.getTasks();
@@ -1256,7 +1293,8 @@ export const DataService = {
   },
 
   claimQuest: async (id: string, currentPoints: number): Promise<{ success: boolean; newPoints: number }> => {
-    const def = QUEST_DATABASE.find(q => q.id === id);
+    const { store } = normalizeChatVariables(getVariables(CHAT_OPTION));
+    const def = findQuestDefinitionById(id, store);
     if (!def) return { success: false, newPoints: currentPoints };
     if (def.name.includes('.')) return { success: false, newPoints: currentPoints };
 
@@ -1271,5 +1309,58 @@ export const DataService = {
     await updateStoreWith(s => ({ ...s, quests: { ...s.quests, [id]: 'CLAIMED' } }));
     await MvuBridge.deleteTask(def.name);
     return { success: true, newPoints };
+  },
+
+  createCustomQuest: async (input: {
+    name: string;
+    condition: string;
+    rewardMcPoints: number;
+  }): Promise<{ success: boolean; message?: string; newMoney?: number }> => {
+    const trimmedName = input.name.trim();
+    const trimmedCondition = input.condition.trim();
+    const reward = Math.floor(input.rewardMcPoints);
+    if (!trimmedName) return { success: false, message: '请填写任务名称' };
+    if (!trimmedCondition) return { success: false, message: '请填写任务内容' };
+    if (!Number.isFinite(reward) || reward <= 0) return { success: false, message: '奖励 PT 必须为正整数' };
+    if (reward > 200) return { success: false, message: '单个任务奖励不能超过 200 PT' };
+
+    const user = await DataService.getUserData();
+    const cost = reward * 800;
+    if (user.money < cost) {
+      return { success: false, message: '金钱不足，无法发布该任务' };
+    }
+
+    const afterMoney = user.money - cost;
+    await DataService.updateResources({ money: afterMoney });
+
+    let createdId = '';
+    await updateStoreWith(store => {
+      const currentIndex = store.lastCustomQuestIndex ?? 0;
+      const nextIndex = currentIndex + 1;
+      const id = `custom_${nextIndex}`;
+      createdId = id;
+      const existing = store.customQuests ?? [];
+      const next: QuestDefinition = {
+        id,
+        name: trimmedName,
+        condition: trimmedCondition,
+        rewardMcPoints: reward,
+      };
+      return {
+        ...store,
+        lastCustomQuestIndex: nextIndex,
+        customQuests: [...existing, next],
+      };
+    });
+
+    try {
+      await MvuBridge.appendThisTurnAppOperationLog?.(
+        `发布自定义任务「${trimmedName}」（奖励 ${reward} PT，-¥${(reward * 800).toLocaleString()}）`,
+      );
+    } catch {
+      // ignore
+    }
+
+    return { success: true, newMoney: afterMoney };
   },
 };

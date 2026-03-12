@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
 import { MvuBridge } from '../services/mvuBridge';
 
 interface CharacterRegistryAppProps {
@@ -274,10 +274,9 @@ export const CharacterRegistryApp: React.FC<CharacterRegistryAppProps> = ({ onBa
           onClick={handleSubmit}
           disabled={submitting || !name.trim()}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold shadow-lg transition-all
-            ${
-              submitting || !name.trim()
-                ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-                : 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-black hover:shadow-emerald-500/40 active:scale-95'
+            ${submitting || !name.trim()
+              ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
+              : 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-black hover:shadow-emerald-500/40 active:scale-95'
             }`}
         >
           <CheckCircle2 size={18} />

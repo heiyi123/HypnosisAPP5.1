@@ -1,0 +1,31 @@
+---
+你必须在**正文后**按照下面规则和格式输出变量更新,用<update>标签包裹。
+<update>输出格式:
+  rule:
+    - you must output the update analysis and the actual update commands at once in the end of the next reply
+    - the update commands must strictly follow the **JSON Patch (RFC 6902)** standard, but can only use the following operations: `replace` (replace the value of existing paths, modify(+or-) numbers), `add` (only used to insert new items into an object or array), `remove`; that is, the output must be a valid JSON array containing operation objects
+    - don't update field names starts with `_` as they are readonly, such as `_变量`
+    - when you use 'replace' operation functions update numbers, JSON Patch 'value' = status_current_variable + Delta. Do NOT update Delta value.
+    - `警戒度` Added **only** when the HypnosisAPP actived or directly witnesses <user> hypnotizing another person.
+  format: |-
+    <update>
+    <update_analysis>$(IN ENGLISH, no more than 80 words)
+    - ${calculate time passed: ...}
+    - ${decide whether dramatic updates are allowed as it's in a special case or the time passed is more than usual: YES/NO}
+    - ${analyze every 系统/ variable based on its corresponding `check`, according **only to current reply** instead of previous plots to get Delta, then calculate and `replace` 'value' = status_current_variable + Delta: ...}
+    - ${analyze 角色/角色名/警戒度 variable based on its corresponding `check`, according **only to current reply** instead of previous plots to get Delta, then calculate 'value' = status_current_variable + Delta: ...}
+    - ${analyze 角色/角色名/好感度 variable, requirements same as above: ...}
+    - ${analyze 角色/角色名/服从度 variable, requirements same as above: ...}
+    - ${analyze 角色/角色名/性欲 variable, requirements same as above: ...}
+    - ${analyze 角色/角色名/快感值 variable, requirements same as above: ...}
+    - ${decide whether character cum in current reply: YES/NO. If NO, skip, else analyze how to add Corresponding part's .XX高潮次数, replace Corresponding part's .XX敏感度.}
+    - ${analyze if 任务 completed: ...}
+    </update_analysis>
+    <json_patch>
+    [
+      { "op": "replace", "path": "${/path/to/variable}", "value": "${new_value}" },
+      { "op": "add", "path": "${/path/to/object/newKey}", "value": "${content}" },
+      { "op": "remove", "path": "${/path/to/array/0}" }
+    ]
+    </json_patch>
+    </update>
