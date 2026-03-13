@@ -143,6 +143,33 @@ export const MvuBridge = {
     return _.isPlainObject(tasks) ? (tasks as any) : null;
   },
 
+  purchaseItem: async (itemName: string, description: string, count: number = 1) => {
+    return enqueueMvuWrite(async () => {
+      const data = await getMvuData();
+      if (!data) return false;
+      const { mvu, option } = data;
+
+      const path = '系统.持有物品';
+      const raw = _.get(mvu.stat_data, path);
+      const current = _.isPlainObject(raw) ? (raw as Record<string, any>) : {};
+
+      const prevEntry = (current[itemName] && typeof current[itemName] === 'object'
+        ? (current[itemName] as Record<string, any>)
+        : {}) as { 描述?: string; 数量?: number };
+
+      const nextCount = Math.max(0, (typeof prevEntry.数量 === 'number' ? prevEntry.数量 : 0) + Math.max(1, count));
+      const nextEntry = {
+        描述: prevEntry.描述 || description,
+        数量: nextCount,
+      };
+
+      const nextItems = { ...current, [itemName]: nextEntry };
+      _.set(mvu.stat_data, path, nextItems);
+      await Mvu.replaceMvuData(mvu, option);
+      return true;
+    });
+  },
+
   syncUserResources: async (user: UserResources) => {
     return enqueueMvuWrite(async () => {
       const data = await getMvuData();

@@ -1,4 +1,3 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Activity,
   AlertTriangle,
@@ -13,6 +12,7 @@ import {
   Search,
   User,
 } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { DataService } from '../services/dataService';
 import { MvuBridge, waitForMvuReady } from '../services/mvuBridge';
 
@@ -380,7 +380,7 @@ const BodyScanApp: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const refreshRef = useRef<() => void>(() => {});
+  const refreshRef = useRef<() => void>(() => { });
   const selectorRef = useRef<HTMLDivElement | null>(null);
 
   const roleNames = useMemo(
@@ -729,9 +729,9 @@ const StatRow: React.FC<{ label: string; value: unknown }> = ({ label, value }) 
         ? 'from-emerald-400 to-cyan-400'
         : label === '好感度'
           ? 'from-pink-400 to-rose-400'
-        : label === '性欲'
-          ? 'from-fuchsia-400 to-cyan-400'
-          : 'from-cyan-400 to-violet-400';
+          : label === '性欲'
+            ? 'from-fuchsia-400 to-cyan-400'
+            : 'from-cyan-400 to-violet-400';
 
   return (
     <div className="p-3 rounded-xl border border-white/10 bg-black/20">
@@ -1114,24 +1114,24 @@ const CalendarDarkApp: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           todayMonth === displayedMonth &&
           todayDay &&
           (todayWeek || schedule || location) && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {todayWeek && (
-              <span className="text-[10px] px-2 py-1 rounded-full bg-white/5 border border-white/10 text-white/60">
-                今日 {todayDay}日 · {todayWeek}
-              </span>
-            )}
-            {schedule && (
-              <span className="text-[10px] px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-200">
-                {schedule}
-              </span>
-            )}
-            {location && (
-              <span className="text-[10px] px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-200">
-                {location}
-              </span>
-            )}
-          </div>
-        )}
+            <div className="mt-3 flex flex-wrap gap-2">
+              {todayWeek && (
+                <span className="text-[10px] px-2 py-1 rounded-full bg-white/5 border border-white/10 text-white/60">
+                  今日 {todayDay}日 · {todayWeek}
+                </span>
+              )}
+              {schedule && (
+                <span className="text-[10px] px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-200">
+                  {schedule}
+                </span>
+              )}
+              {location && (
+                <span className="text-[10px] px-2 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-200">
+                  {location}
+                </span>
+              )}
+            </div>
+          )}
       </div>
 
       <div className="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4">

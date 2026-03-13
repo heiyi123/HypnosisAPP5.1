@@ -1,9 +1,10 @@
-import { Activity, AlertTriangle, Calendar, Globe, HelpCircle, Map, Trophy, UserPlus2 } from 'lucide-react';
+import { Activity, AlertTriangle, Calendar, Globe, HelpCircle, Map, ShoppingBag, Trophy, UserPlus2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { AchievementApp } from './components/AchievementApp';
 import { CharacterRegistryApp } from './components/CharacterRegistryApp';
 import { BodyStatsApp, CalendarApp, CampusMapApp, HelpApp, WipApp } from './components/CommonApps';
 import { CustomQuestApp } from './components/CustomQuestApp';
+import { ShopApp } from './components/ShopApp';
 import { HypnoLogoSVG, HypnosisApp } from './components/HypnosisApp';
 import { StatusBar } from './components/OS/StatusBar';
 import { DataService } from './services/dataService';
@@ -205,6 +206,8 @@ const App = () => {
         );
       case AppMode.CHARACTER_REGISTRY:
         return <CharacterRegistryApp onBack={() => setCurrentApp(AppMode.HOME)} />;
+      case AppMode.SHOP:
+        return <ShopApp userData={userData} onUpdateUser={updateUser} onBack={() => setCurrentApp(AppMode.HOME)} />;
       case AppMode.WIP:
         return <WipApp name="Unknown App" onBack={() => setCurrentApp(AppMode.HOME)} />;
       case AppMode.HOME:
@@ -358,6 +361,14 @@ const HomeScreen = ({
       mode: AppMode.HOME,
       disabled: false,
       action: appendMcAnonTagToThisFloor,
+    },
+    {
+      id: 'shop',
+      name: '商城',
+      icon: ShoppingBag,
+      color: 'bg-emerald-700',
+      mode: AppMode.SHOP,
+      disabled: false,
     },
     {
       id: 'custom-quest',

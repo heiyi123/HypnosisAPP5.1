@@ -10,6 +10,7 @@ export enum AppMode {
   CHARACTER_REGISTRY = 'CHARACTER_REGISTRY',
   WIP = 'WIP',
   CUSTOM_QUEST = 'CUSTOM_QUEST',
+  SHOP = 'SHOP',
 }
 
 // User Resources Data Structure
