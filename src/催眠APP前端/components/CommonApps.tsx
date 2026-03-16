@@ -69,8 +69,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 60,
     y: 32,
     locationHint: '教学区 · 本馆右侧',
-    summary:
-      '理科实验室、图书室、自习室、美术室、音乐室等都集中在这栋现代化建筑内，是文化社团与成绩优等生常驻的区域。',
+    summary: '理科实验室、图书室、自习室、美术室、音乐室等都集中在这栋现代化建筑内，是文化社团与成绩优等生常驻的区域。',
     highlights: [
       '三楼的综合图书室与独立自习室气氛安静，适合偷听、偶遇和制造“偶然邂逅”。',
       '二楼的理科实验室和视听室，经常会因为课程安排出现「只有少数人留下」的时间段。',
@@ -84,8 +83,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 28,
     y: 48,
     locationHint: '生活区 · 本馆左下方的独立建筑',
-    summary:
-      '一楼是宽敞的学生食堂与露天咖啡区，二楼则是教职工餐厅与保健中心。中午与放学后都十分热闹。',
+    summary: '一楼是宽敞的学生食堂与露天咖啡区，二楼则是教职工餐厅与保健中心。中午与放学后都十分热闹。',
     highlights: [
       '食堂的落地窗面向中庭，可以从远处观察来往学生的动向。',
       '校医室与保健中心位于楼上，是发生“意外”后最自然的去处。',
@@ -99,8 +97,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 70,
     y: 52,
     locationHint: '运动区 · 靠近运动场一侧',
-    summary:
-      '用于全校集会、球技大会和各类室内运动赛事的大型体育馆。一楼是主场地与器材室，二楼为观众看台与通道。',
+    summary: '用于全校集会、球技大会和各类室内运动赛事的大型体育馆。一楼是主场地与器材室，二楼为观众看台与通道。',
     highlights: [
       '更衣室与淋浴间位于侧翼深处，动线相对隐蔽。',
       '球技大会、体育祭等大型活动时，这里会成为全校视线的中心。',
@@ -114,8 +111,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 76,
     y: 40,
     locationHint: '运动区 · 体育馆旁',
-    summary:
-      '集中安置各种文化社团、运动部的部室。放学后直到傍晚都是人来人往的时间段，社团招新周更是异常喧闹。',
+    summary: '集中安置各种文化社团、运动部的部室。放学后直到傍晚都是人来人往的时间段，社团招新周更是异常喧闹。',
     highlights: [
       '二楼多为文化社团，房门常常半掩着，是“被路过的人看到一眼”的尴尬场景制造机。',
       '一楼连接运动场，方便运动部在练习与休息间往返。',
@@ -129,8 +125,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 20,
     y: 26,
     locationHint: '宿舍区 · 校园左上角',
-    summary:
-      '高规格的女生专用宿舍，管理严格但内装接近高级公寓。多数千金与有钱人家的女儿都会选择入住这里。',
+    summary: '高规格的女生专用宿舍，管理严格但内装接近高级公寓。多数千金与有钱人家的女儿都会选择入住这里。',
     highlights: ['宿舍区与教学楼之间有规定的通学路线，早晚都会出现固定的“人流时间”。'],
   },
   {
@@ -141,8 +136,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 24,
     y: 18,
     locationHint: '宿舍区 · 靠近校园边缘',
-    summary:
-      '由于男生人数极少，男生宿舍规模不大，气氛也与女生宿舍完全不同，更像是被遗忘在角落的小据点。',
+    summary: '由于男生人数极少，男生宿舍规模不大，气氛也与女生宿舍完全不同，更像是被遗忘在角落的小据点。',
     highlights: ['从这里前往教学楼的途中，能明显感受到自己被淹没在女生人海之中的视线差异。'],
   },
   {
@@ -153,8 +147,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 50,
     y: 70,
     locationHint: '户外 · 校园前端',
-    summary:
-      '带有巨大锻铁校门与石碑的正式出入口，往里是一条笔直的林荫大道，尽头连向欧式中庭与校舍本馆。',
+    summary: '带有巨大锻铁校门与石碑的正式出入口，往里是一条笔直的林荫大道，尽头连向欧式中庭与校舍本馆。',
     highlights: [
       '每天的登校与放学都会在这里形成“流量高峰”，是观察全校人群氛围的最佳地点。',
       '地下停车场入口隐蔽在一侧，供教职工与大小姐们的专车使用。',
@@ -168,8 +161,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 80,
     y: 64,
     locationHint: '运动区 · 校园右下角',
-    summary:
-      '大操场、跑道、网球场、弓道场与马术练习场等运动设施集中在此，是体育课与各类比赛的主要舞台。',
+    summary: '大操场、跑道、网球场、弓道场与马术练习场等运动设施集中在此，是体育课与各类比赛的主要舞台。',
     highlights: [
       '球技大会、体育祭、社团联合训练都会在这里发生，氛围从远处就能感受到热度。',
       '视野开阔，黄昏时分的天空与灯光会给人一种“故事即将发生”的预感。',
@@ -183,8 +175,7 @@ const CAMPUS_LOCATIONS: MapLocation[] = [
     x: 10,
     y: 60,
     locationHint: '户外 · 校园后方边缘',
-    summary:
-      '校园后侧的幽静区域，有小树林与被封锁的旧校舍。传闻中经常与“试胆大会”或都市怪谈联系在一起。',
+    summary: '校园后侧的幽静区域，有小树林与被封锁的旧校舍。传闻中经常与“试胆大会”或都市怪谈联系在一起。',
     highlights: [
       '白天几乎没什么人刻意经过，夜间更是容易让人产生“只属于我们两人的空间”错觉。',
       '旧校舍虽然被官方标注为危险区域，但总会有人偷偷摸进去。',
@@ -209,10 +200,7 @@ function categoryName(c: MapCategory): string {
 
 export const CampusMapApp = ({ onBack }: { onBack: () => void }) => {
   const [selectedId, setSelectedId] = useState<string>(CAMPUS_LOCATIONS[0]?.id ?? 'main-building');
-  const selected = useMemo(
-    () => CAMPUS_LOCATIONS.find(l => l.id === selectedId) ?? CAMPUS_LOCATIONS[0],
-    [selectedId],
-  );
+  const selected = useMemo(() => CAMPUS_LOCATIONS.find(l => l.id === selectedId) ?? CAMPUS_LOCATIONS[0], [selectedId]);
 
   return (
     <PageLayout title="校园地图" onBack={onBack} color="bg-slate-900">
@@ -380,7 +368,7 @@ const BodyScanApp: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const refreshRef = useRef<() => void>(() => { });
+  const refreshRef = useRef<() => void>(() => {});
   const selectorRef = useRef<HTMLDivElement | null>(null);
 
   const roleNames = useMemo(

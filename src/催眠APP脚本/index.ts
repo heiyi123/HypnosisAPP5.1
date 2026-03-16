@@ -234,8 +234,7 @@ async function applyDailySettlement(mvu: Mvu.MvuData, before: Mvu.MvuData): Prom
       const corruption = toFiniteNumber(_.get(statAfter, corruptionPath), null);
       if (corruption !== null) {
         const current = Math.max(0, corruption);
-        const nextCorruption =
-          current >= 80 ? current : Math.max(0, current - dayDelta);
+        const nextCorruption = current >= 80 ? current : Math.max(0, current - dayDelta);
         if (nextCorruption !== current && (await setIfChanged(mvu, corruptionPath, nextCorruption))) {
           changed = true;
         }

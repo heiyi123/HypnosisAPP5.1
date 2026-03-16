@@ -1,4 +1,14 @@
-import { Activity, AlertTriangle, Calendar, Globe, HelpCircle, Map, ShoppingBag, Trophy, UserPlus2 } from 'lucide-react';
+import {
+  Activity,
+  AlertTriangle,
+  Calendar,
+  Globe,
+  HelpCircle,
+  Map,
+  ShoppingBag,
+  Trophy,
+  UserPlus2,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { AchievementApp } from './components/AchievementApp';
 import { CharacterRegistryApp } from './components/CharacterRegistryApp';
@@ -381,17 +391,17 @@ const HomeScreen = ({
   ];
   const visibleApps: DesktopApp[] = bodyStatsUnlocked
     ? [
-      apps[0],
-      {
-        id: 'stats',
-        name: '身体检测',
-        icon: Activity,
-        color: 'bg-blue-500',
-        mode: AppMode.BODY_STATS,
-        disabled: false,
-      },
-      ...apps.slice(1),
-    ]
+        apps[0],
+        {
+          id: 'stats',
+          name: '身体检测',
+          icon: Activity,
+          color: 'bg-blue-500',
+          mode: AppMode.BODY_STATS,
+          disabled: false,
+        },
+        ...apps.slice(1),
+      ]
     : apps;
 
   return (

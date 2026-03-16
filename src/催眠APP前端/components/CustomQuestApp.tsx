@@ -142,7 +142,8 @@ export const CustomQuestApp: React.FC<CustomQuestAppProps> = ({ userData, onUpda
               className="bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400"
             />
             <div className="text-[11px] text-gray-400 mt-1">
-              发布价格：{reward > 0 ? (
+              发布价格：
+              {reward > 0 ? (
                 <span className={insufficientMoney ? 'text-red-400 font-semibold' : 'text-amber-300 font-semibold'}>
                   -¥{cost.toLocaleString()}
                 </span>
@@ -159,12 +160,10 @@ export const CustomQuestApp: React.FC<CustomQuestAppProps> = ({ userData, onUpda
             <div className="space-y-1">
               <div className="font-bold">说明</div>
               <p>
-                自定义任务发布后，会出现在「成就和任务」App 的任务列表中。你需要在剧情中实际完成该任务，
-                并由 LLM 按世界书中的规则把对应任务的“已完成”设置为 true，才能在任务界面领取奖励 PT。
+                自定义任务发布后，会出现在「成就和任务」App 的任务列表中。你需要在剧情中实际完成该任务， 并由 LLM
+                按世界书中的规则把对应任务的“已完成”设置为 true，才能在任务界面领取奖励 PT。
               </p>
-              <p>
-                自定义任务只能消耗金钱来发布，不会直接获得 PT。只有当任务完成并领取奖励时，才会增加 PT 点数。
-              </p>
+              <p>自定义任务只能消耗金钱来发布，不会直接获得 PT。只有当任务完成并领取奖励时，才会增加 PT 点数。</p>
             </div>
           </div>
         </section>
@@ -175,17 +174,23 @@ export const CustomQuestApp: React.FC<CustomQuestAppProps> = ({ userData, onUpda
           type="button"
           onClick={handleSubmit}
           disabled={
-            submitting || !title.trim() || !description.trim() || !Number.isFinite(reward) || reward <= 0 || insufficientMoney
+            submitting ||
+            !title.trim() ||
+            !description.trim() ||
+            !Number.isFinite(reward) ||
+            reward <= 0 ||
+            insufficientMoney
           }
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold shadow-lg transition-all
-            ${submitting ||
+            ${
+              submitting ||
               !title.trim() ||
               !description.trim() ||
               !Number.isFinite(reward) ||
               reward <= 0 ||
               insufficientMoney
-              ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-              : 'bg-linear-to-r from-amber-400 to-rose-500 text-black hover:shadow-amber-500/40 active:scale-95'
+                ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
+                : 'bg-linear-to-r from-amber-400 to-rose-500 text-black hover:shadow-amber-500/40 active:scale-95'
             }`}
         >
           发布任务
@@ -200,4 +205,3 @@ export const CustomQuestApp: React.FC<CustomQuestAppProps> = ({ userData, onUpda
     </div>
   );
 };
-

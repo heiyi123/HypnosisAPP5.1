@@ -61,7 +61,8 @@ export const CharacterRegistryApp: React.FC<CharacterRegistryAppProps> = ({ onBa
       const worldbookName =
         charBooks.primary ??
         charBooks.additional[0] ??
-        ((await getChatWorldbookName('current')) ?? (await getOrCreateChatWorldbook('current')));
+        (await getChatWorldbookName('current')) ??
+        (await getOrCreateChatWorldbook('current'));
 
       // 2. 在世界书中新增绿灯条目（人设 + 变量）
       const content = buildContent();
@@ -274,9 +275,10 @@ export const CharacterRegistryApp: React.FC<CharacterRegistryAppProps> = ({ onBa
           onClick={handleSubmit}
           disabled={submitting || !name.trim()}
           className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold shadow-lg transition-all
-            ${submitting || !name.trim()
-              ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
-              : 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-black hover:shadow-emerald-500/40 active:scale-95'
+            ${
+              submitting || !name.trim()
+                ? 'bg-gray-600 text-gray-300 cursor-not-allowed'
+                : 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-black hover:shadow-emerald-500/40 active:scale-95'
             }`}
         >
           <CheckCircle2 size={18} />
@@ -292,4 +294,3 @@ export const CharacterRegistryApp: React.FC<CharacterRegistryAppProps> = ({ onBa
     </div>
   );
 };
-
